@@ -53,7 +53,7 @@ By using the Program, you acknowledge that you have read, understood, and agree 
   ```
 * Then go to directory -
   ```zsh
-  cd NetListenPro
-  python3 main.py
+  $ cd NetListenPro
+  $ python3 main.py
   ```
 
