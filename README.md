@@ -43,6 +43,4 @@ By using the Program, you acknowledge that you have read, understood, and agree 
 [19.12.2023]
 </div>
 
-<div align="left">
-  # Features
-</div>
+# Features
