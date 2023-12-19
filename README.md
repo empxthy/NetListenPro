@@ -44,3 +44,4 @@ By using the Program, you acknowledge that you have read, understood, and agree 
 </div><br>
 
 # Features
+* Latest updates.
