@@ -58,8 +58,8 @@ By using the Program, you acknowledge that you have read, understood, and agree 
   ```
 
   
-# <details>
-  <summary>Dependencies</summary>
+ <details>
+ # <summary>Dependencies</summary>
   1. [socket](socket)
  </details>
 
