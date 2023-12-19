@@ -11,7 +11,7 @@
   # Disclaimer
 1. Acceptance of Terms
 
-By using *NetListenPro* (the "Program"), you agree to be bound by the terms and conditions outlined in this disclaimer. If you do not agree to these terms, please refrain from using the Program.
+By using **NetListenPro** (the "Program"), you agree to be bound by the terms and conditions outlined in this disclaimer. If you do not agree to these terms, please refrain from using the Program.
 
 2. No Warranty
 
@@ -35,7 +35,7 @@ alexemployed reserves the right to modify, suspend, or discontinue the Program a
 
 7. Governing Law
 
-This disclaimer is governed by the laws of *Your Jurisdiction*, and any disputes arising out of or in connection with this disclaimer shall be subject to the exclusive jurisdiction of the courts of *Your Jurisdiction*.
+This disclaimer is governed by the laws of **Your Jurisdiction**, and any disputes arising out of or in connection with this disclaimer shall be subject to the exclusive jurisdiction of the courts of **Your Jurisdiction**.
 
 By using the Program, you acknowledge that you have read, understood, and agree to be bound by this disclaimer.
 
