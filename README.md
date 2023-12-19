@@ -59,7 +59,7 @@ By using the Program, you acknowledge that you have read, understood, and agree 
 
   
  <details>
-    <b><summary>Dependencies</summary>
+    <summary><b>Dependencies</b></summary>
     [1] Asyncio - pip install asyncio
  </details>
 
