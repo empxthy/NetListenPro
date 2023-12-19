@@ -57,9 +57,9 @@ By using the Program, you acknowledge that you have read, understood, and agree 
   $ python3 main.py
   ```
 
-  
+ #  
  <details>
- # <summary>Dependencies</summary>
-  1. [socket](socket)
+    <summary>Dependencies</summary>
+    [1] Asyncio - pip install asyncio
  </details>
 
