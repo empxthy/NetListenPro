@@ -57,9 +57,13 @@ By using the Program, you acknowledge that you have read, understood, and agree 
   $ python3 main.py
   ```
 
-  
- <details>
-    <summary><b>Dependencies</b></summary>
-    [1] Asyncio - pip install asyncio
- </details>
+<details>
+  <summary><h3>Dependencies</h3></summary>
 
+<b>Zphisher</b> requires following programs to run properly - 
+- `git`
+- `curl`
+- `php`
+
+> All the dependencies will be installed automatically when you run **Zphisher** for the first time.
+</details>
