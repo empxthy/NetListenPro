@@ -4,15 +4,17 @@
 # Name: TCP-Listener
 # Author: AlexEmployed
 # Version: 0.0.1
-# License: MIT
-# Copyright: alexemployed (2023-infinity)
+# License: GPL-3.0 version
+# Copyright: alexemployed 2023
 # Github: https://github.com/alexemployed
 # Language: Python
 
 
 # Imports
 import sys
+import os
 import asyncio
+import platform
 
 # Colors
 _black = "\033[0;30m"
@@ -33,6 +35,27 @@ _lightPurple = "\033[1;35m"
 _lightCyan = "\033[1;36m"
 _lightWhite = "\033[1;37m"
 
+
+# Privalages
+os_name = platform.system()
+    
+def check_root():
+    return os.geteuid() == 0
+
+def check_admin():
+    if os.name == 'nt':
+        try:
+            temp = os.listdir(os.sep.join([os.environ.get('SystemRoot', 'C:\\Windows'), 'temp']))
+        except:
+            return (os.environ['USERNAME'], False)
+        else:
+            return (os.environ['USERNAME'], True)
+    else:
+        if 'SUDO_USER' in os.environ and os.geteuid() == 0:
+            return (os.environ['SUDO_USER'], True)
+        else:
+            return (os.environ['USERNAME'], False)
+        
 
 # Functions
 async def scan_port(ip, port):
