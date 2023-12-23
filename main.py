@@ -15,6 +15,7 @@ import sys
 import os
 import asyncio
 import platform
+import subprocess
 
 # Colors
 _black = "\033[0;30m"
@@ -40,22 +41,18 @@ _lightWhite = "\033[1;37m"
 os_name = platform.system()
     
 def check_root():
-    return os.geteuid() == 0
+    ret = 0
+    if os.geteuid != 0:
+        msg = "[sudo] password for %u: "
+        ret = subprocess.check_call("sudo -v -p '%s'" %msg, shell=True)
+    return ret
 
 def check_admin():
-    if os.name == 'nt':
-        try:
-            temp = os.listdir(os.sep.join([os.environ.get('SystemRoot', 'C:\\Windows'), 'temp']))
-        except:
-            return (os.environ['USERNAME'], False)
-        else:
-            return (os.environ['USERNAME'], True)
-    else:
-        if 'SUDO_USER' in os.environ and os.geteuid() == 0:
-            return (os.environ['SUDO_USER'], True)
-        else:
-            return (os.environ['USERNAME'], False)
-        
+    try:
+        subprocess.check_call(["net", "session"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        return True
+    except subprocess.CalledProcessError:
+        return False
 
 # Functions
 async def scan_port(ip, port):
@@ -80,7 +77,16 @@ host = input(f"{_yellow}[!]{_white} Enter the host: ")
 
 if __name__ == '__main__':
     try:
-        asyncio.run(scan_ports(host))
+        if os_name == 'Linux':
+            if check_root() != 0:
+                sys.exit("Run as sudo!")
+            asyncio.run(scan_ports(host))
+        
+        if os_name == 'Windows':
+            if check_admin():
+                asyncio.run(scan_ports(host))
+            else: sys.exit("Run as Admin")
+
     except KeyboardInterrupt:
         print(f"Program {_red}end{_white} by user!")
         sys.exit(0)
