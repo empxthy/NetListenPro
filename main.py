@@ -3,7 +3,7 @@
 # Coding: UTF-8
 # Name: TCP-Listener
 # Author: AlexEmployed
-# Version: 0.0.1
+# Version: 1.0.0
 # License: GPL-3.0 version
 # Copyright: alexemployed 2023
 # Github: https://github.com/alexemployed
@@ -16,6 +16,9 @@ import os
 import asyncio
 import platform
 import subprocess
+
+# Version
+_version = "1.0.0"
 
 # Colors
 _black = "\033[0;30m"
@@ -79,6 +82,7 @@ print(f"""
 ██║╚██╗██║██╔══╝     ██║   ██║     ██║╚════██║   ██║   ██╔══╝  ██║╚██╗██║██╔═══╝ ██╔══██╗██║   ██║
 ██║ ╚████║███████╗   ██║   ███████╗██║███████║   ██║   ███████╗██║ ╚████║██║     ██║  ██║╚██████╔╝
 ╚═╝  ╚═══╝╚══════╝   ╚═╝   ╚══════╝╚═╝╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═══╝╚═╝     ╚═╝  ╚═╝ ╚═════╝ 
+{_cyan}[+]CREATOR: {_white}https://github.com/alexemployed                                            {_cyan}Version:{_white} {_version}
                                                                                                   """)
 
 host = input(f"{_yellow}[!]{_white} Enter the host: ")
