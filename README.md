@@ -7,7 +7,7 @@
   <img src="https://raw.githubusercontent.com/alexemployed/NetListenPro/65152da645ca08d812105cc44a6669d99bf20e3b/.github/misc/Maintained.svg"></img>
   <img src="https://raw.githubusercontent.com/alexemployed/NetListenPro/65152da645ca08d812105cc44a6669d99bf20e3b/.github/misc/Written%20in.svg"></img>
 
-  # TCP Protocol PORTS listener, written in python
+  # NetListenPro
   # Disclaimer
 1. Acceptance of Terms
 
