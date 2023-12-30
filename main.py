@@ -19,9 +19,6 @@ import requests
 import shutil
 import subprocess
 
-# Version
-_version = "1.0.0"
-
 # Colors
 _black = "\033[0;30m"
 _red = "\033[0;31m"
@@ -46,7 +43,7 @@ _version = "1.0.0"
 
 # Check Update
 def check_update(repo_owner, repo_name, current_version):
-    print(f"{_yellow}[!]{_white}Checking for updates...")
+    print(f"{_yellow}[!]{_white} Checking for updates...")
 
     api_url = f"https://api.github.com/repos/{repo_owner}/{repo_name}/releases/latest"
 
@@ -58,25 +55,25 @@ def check_update(repo_owner, repo_name, current_version):
         latest_version = latest_release["tag_name"]
 
         if current_version >= latest_version:
-            print(f"{_green}[+]{_white}Your software is up to date (version {current_version}).")
+            print(f"{_green}[+]{_white} Your software is up to date (version {current_version}).")
         else:
             print(f"{_red}[-]{_white}A new version ({latest_version}) is available. Please update your software.")
-            upt = str(input(f"{_yellow}[!]{_white}Update now?: [{_green}y{_white}/{_red}n{_white}]\n{_yellow}[?]{_white}Y/N: "))
+            upt = str(input(f"{_yellow}[!]{_white} Update now?: [{_green}y{_white}/{_red}n{_white}]\n{_yellow}[?]{_white}Y/N: "))
             clone_path = os.path.join(os.path.expanduser('~'), 'Desktop')
             if upt == "y":
                 try:
                     shutil.rmtree(clone_path)
                     subprocess.run(["git", "clone", "https://github.com/alexemployed/NetListenPro.git", clone_path], check=True)
-                    print(f"{_green}[+]{_white}Repository cloned successfully!")
+                    print(f"{_green}[+]{_white} Repository cloned successfully!")
                 except subprocess.CalledProcessError as e:
                     print(f"Error: {_red}{e}{_white}")
             
             if upt == "n":
-                print(f"{_red}[-]{_white}Update cancelled by user!")
+                print(f"{_red}[-]{_white} Update cancelled by user!")
                 sys.exit(1)
     
     except requests.exceptions.RequestException as e:
-        print(f"{_red}[-]{_white}Error: {e}")
+        print(f"{_red}[-]{_white} Error: {e}")
         print(f"Response content: {response.content}")
 
 
@@ -115,21 +112,23 @@ async def scan_ports(ip):
     await asyncio.gather(*tasks)
 
 # Get the host from the user
-print(f"""
-███╗   ██╗███████╗████████╗██╗     ██╗███████╗████████╗███████╗███╗   ██╗██████╗ ██████╗  ██████╗ 
-████╗  ██║██╔════╝╚══██╔══╝██║     ██║██╔════╝╚══██╔══╝██╔════╝████╗  ██║██╔══██╗██╔══██╗██╔═══██╗
-██╔██╗ ██║█████╗     ██║   ██║     ██║███████╗   ██║   █████╗  ██╔██╗ ██║██████╔╝██████╔╝██║   ██║
-██║╚██╗██║██╔══╝     ██║   ██║     ██║╚════██║   ██║   ██╔══╝  ██║╚██╗██║██╔═══╝ ██╔══██╗██║   ██║
-██║ ╚████║███████╗   ██║   ███████╗██║███████║   ██║   ███████╗██║ ╚████║██║     ██║  ██║╚██████╔╝
-╚═╝  ╚═══╝╚══════╝   ╚═╝   ╚══════╝╚═╝╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═══╝╚═╝     ╚═╝  ╚═╝ ╚═════╝ 
-{_cyan}[+]CREATOR: {_white}https://github.com/alexemployed                                            {_cyan}Version:{_white} {_version}
-                                                                                                  """)
-
-host = input(f"{_yellow}[!]{_white} Enter the host: ")
+def startup():
+    print(f"""
+    ███╗   ██╗███████╗████████╗██╗     ██╗███████╗████████╗███████╗███╗   ██╗██████╗ ██████╗  ██████╗ 
+    ████╗  ██║██╔════╝╚══██╔══╝██║     ██║██╔════╝╚══██╔══╝██╔════╝████╗  ██║██╔══██╗██╔══██╗██╔═══██╗
+    ██╔██╗ ██║█████╗     ██║   ██║     ██║███████╗   ██║   █████╗  ██╔██╗ ██║██████╔╝██████╔╝██║   ██║
+    ██║╚██╗██║██╔══╝     ██║   ██║     ██║╚════██║   ██║   ██╔══╝  ██║╚██╗██║██╔═══╝ ██╔══██╗██║   ██║
+    ██║ ╚████║███████╗   ██║   ███████╗██║███████║   ██║   ███████╗██║ ╚████║██║     ██║  ██║╚██████╔╝
+    ╚═╝  ╚═══╝╚══════╝   ╚═╝   ╚══════╝╚═╝╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═══╝╚═╝     ╚═╝  ╚═╝ ╚═════╝ 
+    {_cyan}[+]CREATOR: {_white}https://github.com/alexemployed                                            {_cyan}Version:{_white} {_version}
+                                                                                                    """)
 
 
 if __name__ == '__main__':
     try:
+        startup()
+        check_update("alexemployed", "NetListenPro", _version)
+        host = input(f"{_yellow}[!]{_white} Enter the host: ")
         if os_name == 'Linux':
             if check_root() != 0:
                 sys.exit("Run as sudo!")
@@ -141,5 +140,5 @@ if __name__ == '__main__':
             else: sys.exit("Run as Admin")
 
     except KeyboardInterrupt:
-        print(f"Program {_red}end{_white} by user!")
+        print(f"\n{_red}[-]{_white} Program {_red}end{_white} by user!")
         sys.exit(0)
