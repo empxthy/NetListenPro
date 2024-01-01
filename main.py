@@ -9,15 +9,18 @@
 # Github: https://github.com/alexemployed
 # Language: Python
 
-
 # Imports
 import sys
 import os
 import asyncio
+import time
 import platform
 import requests
 import shutil
 import subprocess
+
+# Version
+_version = "0.0.5"
 
 # Colors
 _black = "\033[0;30m"
@@ -38,14 +41,32 @@ _lightPurple = "\033[1;35m"
 _lightCyan = "\033[1;36m"
 _lightWhite = "\033[1;37m"
 
-# Version
-_version = "1.0.0"
+# Logo
+def startup():
+    print(f"""
+    ███╗   ██╗███████╗████████╗██╗     ██╗███████╗████████╗███████╗███╗   ██╗██████╗ ██████╗  ██████╗ 
+    ████╗  ██║██╔════╝╚══██╔══╝██║     ██║██╔════╝╚══██╔══╝██╔════╝████╗  ██║██╔══██╗██╔══██╗██╔═══██╗
+    ██╔██╗ ██║█████╗     ██║   ██║     ██║███████╗   ██║   █████╗  ██╔██╗ ██║██████╔╝██████╔╝██║   ██║
+    ██║╚██╗██║██╔══╝     ██║   ██║     ██║╚════██║   ██║   ██╔══╝  ██║╚██╗██║██╔═══╝ ██╔══██╗██║   ██║
+    ██║ ╚████║███████╗   ██║   ███████╗██║███████║   ██║   ███████╗██║ ╚████║██║     ██║  ██║╚██████╔╝
+    ╚═╝  ╚═══╝╚══════╝   ╚═╝   ╚══════╝╚═╝╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═══╝╚═╝     ╚═╝  ╚═╝ ╚═════╝ 
+    {_cyan}[+]CREATOR: {_white}https://github.com/alexemployed                                         {_cyan}Version:{_white} {_version}
+                                                                                                    """)
+
+# Typing
+def slow_print_formatted(format_string, *args, delay=0.05):
+    formatted_message = format_string.format(*args)
+    
+    for char in formatted_message:
+        print(char, end='', flush=True)
+        time.sleep(delay)
+    print()
 
 # Check Update
-def check_update(repo_owner, repo_name, current_version):
-    print(f"{_yellow}[!]{_white} Checking for updates...")
+def check_update(current_version):
+    slow_print_formatted(f"{_yellow}[!]{_white} Checking for updates...")
 
-    api_url = f"https://api.github.com/repos/{repo_owner}/{repo_name}/releases/latest"
+    api_url = f"https://api.github.com/repos/alexemployed/NetListenPro/releases/latest"
 
     try:
         response = requests.get(api_url)
@@ -55,31 +76,32 @@ def check_update(repo_owner, repo_name, current_version):
         latest_version = latest_release["tag_name"]
 
         if current_version >= latest_version:
-            print(f"{_green}[+]{_white} Your software is up to date (version {current_version}).")
+            slow_print_formatted(f"{_green}[+]{_white} Your software is up to date (version {current_version}).")
         else:
-            print(f"{_red}[-]{_white}A new version ({latest_version}) is available. Please update your software.")
-            upt = str(input(f"{_yellow}[!]{_white} Update now?: [{_green}y{_white}/{_red}n{_white}]\n{_yellow}[?]{_white}Y/N: "))
+            slow_print_formatted(f"{_red}[-]{_white} A new version ({latest_version}) is available. Please update your software.")
+            upt = str(input(f"{_yellow}[!]{_white} Update now?: [{_green}y{_white}/{_red}n{_white}]\n{_yellow}[?]{_white} Y/N: "))
             clone_path = os.path.join(os.path.expanduser('~'), 'Desktop')
-            if upt == "y":
-                try:
-                    shutil.rmtree(clone_path)
-                    subprocess.run(["git", "clone", "https://github.com/alexemployed/NetListenPro.git", clone_path], check=True)
-                    print(f"{_green}[+]{_white} Repository cloned successfully!")
-                except subprocess.CalledProcessError as e:
-                    print(f"Error: {_red}{e}{_white}")
-            
-            if upt == "n":
-                print(f"{_red}[-]{_white} Update cancelled by user!")
-                sys.exit(1)
+            while True:
+                if upt == "y":
+                    try:
+                        shutil.rmtree(clone_path)
+                        subprocess.run(["git", "clone", "https://github.com/alexemployed/NetListenPro.git", clone_path], check=True)
+                        slow_print_formatted(f"{_green}[+]{_white} Repository cloned successfully!")
+                    except subprocess.CalledProcessError as e:
+                        slow_print_formatted(f"Error: {_red}{e}{_white}")
+                elif upt == "n":
+                    slow_print_formatted(f"{_red}[-]{_white} Update cancelled by user!")
+                    sys.exit(1)
+                else:
+                    slow_print_formatted(f"{_yellow}[!]{_white} Please enter {_green}'y'{_white} or {_red}'n'{_white}!")
+                    slow_print_formatted(f"{_red}[-]{_white} The program ends its work...\n{_blue}[!]{_white} Have a nice day! :)")
+                    sys.exit(1)
     
     except requests.exceptions.RequestException as e:
-        print(f"{_red}[-]{_white} Error: {e}")
-        print(f"Response content: {response.content}")
-
+        slow_print_formatted(f"{_red}[-]{_white} Error: {e}")
+        slow_print_formatted(f"Response content: {response.content}")
 
 # Privalages
-os_name = platform.system()
-    
 def check_root():
     ret = 0
     if os.geteuid != 0:
@@ -111,34 +133,13 @@ async def scan_ports(ip):
     tasks = [scan_port(ip, port) for port in range(1, 1024)]
     await asyncio.gather(*tasks)
 
-# Get the host from the user
-def startup():
-    print(f"""
-    ███╗   ██╗███████╗████████╗██╗     ██╗███████╗████████╗███████╗███╗   ██╗██████╗ ██████╗  ██████╗ 
-    ████╗  ██║██╔════╝╚══██╔══╝██║     ██║██╔════╝╚══██╔══╝██╔════╝████╗  ██║██╔══██╗██╔══██╗██╔═══██╗
-    ██╔██╗ ██║█████╗     ██║   ██║     ██║███████╗   ██║   █████╗  ██╔██╗ ██║██████╔╝██████╔╝██║   ██║
-    ██║╚██╗██║██╔══╝     ██║   ██║     ██║╚════██║   ██║   ██╔══╝  ██║╚██╗██║██╔═══╝ ██╔══██╗██║   ██║
-    ██║ ╚████║███████╗   ██║   ███████╗██║███████║   ██║   ███████╗██║ ╚████║██║     ██║  ██║╚██████╔╝
-    ╚═╝  ╚═══╝╚══════╝   ╚═╝   ╚══════╝╚═╝╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═══╝╚═╝     ╚═╝  ╚═╝ ╚═════╝ 
-    {_cyan}[+]CREATOR: {_white}https://github.com/alexemployed                                            {_cyan}Version:{_white} {_version}
-                                                                                                    """)
-
-
 if __name__ == '__main__':
-    try:
-        startup()
-        check_update("alexemployed", "NetListenPro", _version)
-        host = input(f"{_yellow}[!]{_white} Enter the host: ")
-        if os_name == 'Linux':
-            if check_root() != 0:
-                sys.exit("Run as sudo!")
-            asyncio.run(scan_ports(host))
-        
-        if os_name == 'Windows':
-            if check_admin():
-                asyncio.run(scan_ports(host))
-            else: sys.exit("Run as Admin")
-
-    except KeyboardInterrupt:
-        print(f"\n{_red}[-]{_white} Program {_red}end{_white} by user!")
-        sys.exit(0)
+    startup()
+    if os.name == 'posix':
+        check_root()
+    elif os.name == 'nt':
+        check_admin()
+    else:
+        sys.exit(1)
+    check_update(_version)
+    host = input(f"{_yellow}[!]{_white} Enter the host: ")
