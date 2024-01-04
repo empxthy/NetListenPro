@@ -20,7 +20,7 @@ import shutil
 import subprocess
 
 # Version
-_version = "0.0.5"
+_version = "1.0.0"
 
 # Colors
 _black = "\033[0;30m"
@@ -133,13 +133,25 @@ async def scan_ports(ip):
     tasks = [scan_port(ip, port) for port in range(1, 1024)]
     await asyncio.gather(*tasks)
 
+
 if __name__ == '__main__':
-    startup()
-    if os.name == 'posix':
-        check_root()
-    elif os.name == 'nt':
-        check_admin()
-    else:
+    try:
+        if os.name == 'posix':
+            startup()
+            check_root()
+            check_update(_version)
+            host = input(f"{_yellow}[!]{_white} Enter the host: ")
+            asyncio.run(scan_ports(host))
+        elif os.name == 'nt':
+            startup()
+            check_root()
+            check_update(_version)
+            host = input(f"{_yellow}[!]{_white} Enter the host: ")
+            check_admin()
+            asyncio.run(scan_ports(host))
+        else:
+            sys.exit(1)
+
+    except KeyboardInterrupt:
+        slow_print_formatted(f"{_red}[-]{_white} Program closed by user!")
         sys.exit(1)
-    check_update(_version)
-    host = input(f"{_yellow}[!]{_white} Enter the host: ")
