@@ -54,7 +54,7 @@ def startup():
                                                                                                     """)
 
 # Typing
-def slow_print_formatted(format_string, *args, delay=0.05):
+def sprint(format_string, *args, delay=0.05):
     formatted_message = format_string.format(*args)
     
     for char in formatted_message:
@@ -64,7 +64,7 @@ def slow_print_formatted(format_string, *args, delay=0.05):
 
 # Check Update
 def check_update(current_version):
-    slow_print_formatted(f"{_yellow}[!]{_white} Checking for updates...")
+    sprint(f"{_yellow}[!]{_white} Checking for updates...")
 
     api_url = f"https://api.github.com/repos/alexemployed/NetListenPro/releases/latest"
 
@@ -76,9 +76,9 @@ def check_update(current_version):
         latest_version = latest_release["tag_name"]
 
         if current_version >= latest_version:
-            slow_print_formatted(f"{_green}[+]{_white} Your software is up to date (version {current_version}).")
+            sprint(f"{_green}[+]{_white} Your software is up to date (version {current_version}).")
         else:
-            slow_print_formatted(f"{_red}[-]{_white} A new version ({latest_version}) is available. Please update your software.")
+            sprint(f"{_red}[-]{_white} A new version ({latest_version}) is available. Please update your software.")
             upt = str(input(f"{_yellow}[!]{_white} Update now?: [{_green}y{_white}/{_red}n{_white}]\n{_yellow}[?]{_white} Y/N: "))
             clone_path = os.path.join(os.path.expanduser('~'), 'Desktop')
             while True:
@@ -86,20 +86,20 @@ def check_update(current_version):
                     try:
                         shutil.rmtree(clone_path)
                         subprocess.run(["git", "clone", "https://github.com/alexemployed/NetListenPro.git", clone_path], check=True)
-                        slow_print_formatted(f"{_green}[+]{_white} Repository cloned successfully!")
+                        sprint(f"{_green}[+]{_white} Repository cloned successfully!")
                     except subprocess.CalledProcessError as e:
-                        slow_print_formatted(f"Error: {_red}{e}{_white}")
+                        sprint(f"Error: {_red}{e}{_white}")
                 elif upt == "n":
-                    slow_print_formatted(f"{_red}[-]{_white} Update cancelled by user!")
+                    sprint(f"{_red}[-]{_white} Update cancelled by user!")
                     sys.exit(1)
                 else:
-                    slow_print_formatted(f"{_yellow}[!]{_white} Please enter {_green}'y'{_white} or {_red}'n'{_white}!")
-                    slow_print_formatted(f"{_red}[-]{_white} The program ends its work...\n{_blue}[!]{_white} Have a nice day! :)")
+                    sprint(f"{_yellow}[!]{_white} Please enter {_green}'y'{_white} or {_red}'n'{_white}!")
+                    sprint(f"{_red}[-]{_white} The program ends its work...\n{_blue}[!]{_white} Have a nice day! :)")
                     sys.exit(1)
     
     except requests.exceptions.RequestException as e:
-        slow_print_formatted(f"{_red}[-]{_white} Error: {e}")
-        slow_print_formatted(f"Response content: {response.content}")
+        sprint(f"{_red}[-]{_white} Error: {e}")
+        sprint(f"Response content: {response.content}")
 
 # Privalages
 def check_root():
@@ -153,5 +153,5 @@ if __name__ == '__main__':
             sys.exit(1)
 
     except KeyboardInterrupt:
-        slow_print_formatted(f"{_red}[-]{_white} Program closed by user!")
+        sprint(f"{_red}[-]{_white} Program closed by user!")
         sys.exit(1)
